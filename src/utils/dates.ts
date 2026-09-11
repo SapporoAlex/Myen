@@ -42,3 +42,21 @@ export function monthKeysBetween(startKey: string, endKey: string): string[] {
   }
   return keys
 }
+
+/** yyyy-MM-dd -> yyyy */
+export function toYearKey(dateStr: string): string {
+  return dateStr.slice(0, 4)
+}
+
+export function currentYearKey(): string {
+  return format(new Date(), 'yyyy')
+}
+
+/** Every year key from start to end, inclusive. */
+export function yearKeysBetween(startKey: string, endKey: string): string[] {
+  const start = Number(startKey)
+  const end = Number(endKey)
+  const keys: string[] = []
+  for (let y = start; y <= end; y++) keys.push(String(y))
+  return keys
+}

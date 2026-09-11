@@ -1,17 +1,17 @@
 import { CATEGORIES, type Category } from '../../types'
-import type { BestMonth } from '../../utils/aggregate'
-import { monthKeyLabel } from '../../utils/dates'
+import type { BestPeriod } from '../../utils/aggregate'
 import { formatYen } from '../../utils/format'
 
 interface Props {
-  bestMonths: Record<Category, BestMonth>
+  bestPeriods: Record<Category, BestPeriod>
+  formatLabel: (period: string) => string
 }
 
-export function BestMonths({ bestMonths }: Props) {
+export function BestPeriods({ bestPeriods, formatLabel }: Props) {
   return (
     <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
       {CATEGORIES.map((c) => {
-        const best = bestMonths[c.id]
+        const best = bestPeriods[c.id]
         return (
           <div
             key={c.id}
@@ -28,7 +28,7 @@ export function BestMonths({ bestMonths }: Props) {
               <>
                 <div className="mt-1 text-lg font-semibold tabular-nums">{formatYen(best.amount)}</div>
                 <div className="text-xs" style={{ color: 'var(--text-muted)' }}>
-                  {monthKeyLabel(best.month)}
+                  {formatLabel(best.period)}
                 </div>
               </>
             ) : (

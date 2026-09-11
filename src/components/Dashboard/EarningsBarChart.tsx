@@ -1,16 +1,16 @@
 import { Bar, BarChart, CartesianGrid, Cell, Legend, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts'
 import { CATEGORIES, type Category } from '../../types'
-import type { MonthlyBucket } from '../../utils/aggregate'
-import { monthKeyLabel } from '../../utils/dates'
+import type { PeriodBucket } from '../../utils/aggregate'
 import { formatYen } from '../../utils/format'
 
 interface Props {
-  series: MonthlyBucket[]
-  selectedMonth: string
-  onSelectMonth: (month: string) => void
+  series: PeriodBucket[]
+  selectedPeriod: string
+  onSelectPeriod: (period: string) => void
+  formatLabel: (period: string) => string
 }
 
-export function EarningsBarChart({ series, selectedMonth, onSelectMonth }: Props) {
+export function EarningsBarChart({ series, selectedPeriod, onSelectPeriod, formatLabel }: Props) {
   return (
     <div className="h-80 w-full cursor-pointer">
       <ResponsiveContainer width="100%" height="100%">
@@ -19,13 +19,13 @@ export function EarningsBarChart({ series, selectedMonth, onSelectMonth }: Props
           margin={{ top: 8, right: 8, left: 0, bottom: 0 }}
           onClick={(state) => {
             const label = state?.activeLabel
-            if (typeof label === 'string') onSelectMonth(label)
+            if (typeof label === 'string') onSelectPeriod(label)
           }}
         >
           <CartesianGrid vertical={false} stroke="var(--gridline)" />
           <XAxis
-            dataKey="month"
-            tickFormatter={(m: string) => monthKeyLabel(m)}
+            dataKey="period"
+            tickFormatter={(p: string) => formatLabel(p)}
             tick={{ fill: 'var(--text-muted)', fontSize: 12 }}
             axisLine={{ stroke: 'var(--baseline)' }}
             tickLine={false}
@@ -43,7 +43,7 @@ export function EarningsBarChart({ series, selectedMonth, onSelectMonth }: Props
               formatYen(Number(value)),
               CATEGORIES.find((c) => c.id === name)?.label ?? String(name),
             ]}
-            labelFormatter={(label) => monthKeyLabel(String(label))}
+            labelFormatter={(label) => formatLabel(String(label))}
             contentStyle={{
               background: 'var(--surface-1)',
               border: '1px solid var(--border)',
@@ -67,7 +67,7 @@ export function EarningsBarChart({ series, selectedMonth, onSelectMonth }: Props
               maxBarSize={24}
             >
               {series.map((bucket) => (
-                <Cell key={bucket.month} fillOpacity={bucket.month === selectedMonth ? 1 : 0.55} />
+                <Cell key={bucket.period} fillOpacity={bucket.period === selectedPeriod ? 1 : 0.55} />
               ))}
             </Bar>
           ))}

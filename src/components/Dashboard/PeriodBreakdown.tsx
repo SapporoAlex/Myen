@@ -1,19 +1,19 @@
 import { CATEGORIES } from '../../types'
-import type { MonthlyBucket } from '../../utils/aggregate'
-import { monthKeyLabel } from '../../utils/dates'
+import type { PeriodBucket } from '../../utils/aggregate'
 import { formatYen } from '../../utils/format'
 
 interface Props {
-  bucket: MonthlyBucket | undefined
+  bucket: PeriodBucket | undefined
+  label: string
 }
 
-export function MonthBreakdown({ bucket }: Props) {
+export function PeriodBreakdown({ bucket, label }: Props) {
   if (!bucket) return null
 
   return (
     <div className="rounded-xl border p-4" style={{ borderColor: 'var(--border)', background: 'var(--surface-1)' }}>
       <h3 className="text-sm font-semibold" style={{ color: 'var(--text-secondary)' }}>
-        {monthKeyLabel(bucket.month)} breakdown
+        {label} breakdown
       </h3>
       <table className="mt-2 w-full text-sm">
         <tbody>
