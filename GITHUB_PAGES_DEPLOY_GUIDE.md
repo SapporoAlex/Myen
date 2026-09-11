@@ -103,3 +103,5 @@ manually from the Actions tab).
 - **Confirmation/reset email link leads to an error page** → Part 5 above
   wasn't done, or the URL doesn't match exactly (check for a missing/extra
   trailing slash).
+
+OK
